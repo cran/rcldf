@@ -59,7 +59,7 @@ override_defaults <- function(...) {
 default_schema <- function(filename, dialect=default_dialect) {
   data_sample <- readr::read_csv(filename, n_max=10, col_names=dialect$header, col_types=readr::cols())
   if(!dialect$header) {
-    names(data_sample) <- paste0("_col.", 1:ncol(data_sample))
+    names(data_sample) <- paste0("_col.", seq_len(ncol(data_sample)))
   }
   csvwr::derive_table_schema(data_sample)
 }
@@ -101,8 +101,6 @@ add_dataframe <- function(table, filename, group) {
     readr::read_delim(
         filename,
         trim_ws=TRUE,
-        skip=dialect$headerRowCount,  # causes more problems than it's worth?
-        col_names=column_names,
         col_types=column_types,
         lazy=TRUE)
 }

@@ -1,4 +1,3 @@
-
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
 CLDF_OBJ <- cldf(MD_JSON_PATH, load_bib=TRUE)
 
@@ -68,9 +67,27 @@ test_that("test handling of no sources", {
 })
 
 
+test_that("test handling of no sources", {
+    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"))
+    expect_equal(is.na(df$sources), TRUE)
+
+    out <- capture.output(summary(df))
+    expect_match(out[6], "Sources: 0")
+})
+
+
 test_that("test handling of valid/invalid JSON files", {
     expect_error(
         cldf(system.file("extdata/examples/not_a_cldf/also_not_a_cldf/invalid.json", package = "rcldf")),
         "Metadata doesn't define any tables, or a url to build a table definition from"
     )
+})
+
+
+test_that("Error with dialect$headerRowCount and skip", {
+    o <- cldf('datasets/barlownumerals')
+    p <- readr::problems(o$tables$ParameterTable)
+    expect_equal(nrow(p), 0)
+    # first row should NOT be the header row repeated ("ID", "Name", ...)
+    expect_equal(as.character(o$tables$ParameterTable[1, 'ID']), 'numeral-system')
 })

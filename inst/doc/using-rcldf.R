@@ -43,6 +43,12 @@ ds
 summary(ds)
 
 ## -----------------------------------------------------------------------------
+get_foreign_keys(ds)
+
+
+schema(ds)
+
+## -----------------------------------------------------------------------------
 names(ds$tables)
 
 # let's look at the languages -- 
@@ -56,6 +62,7 @@ ds$tables$ValueTable
 
 ## -----------------------------------------------------------------------------
 ds <- cldf(system.file("extdata/huon", package="rcldf"), load_bib=TRUE)
+
 # or if you loaded the CLDF without sources the first time you can add them now:
 ds <- read_bib(ds)
 
@@ -76,6 +83,14 @@ get_details(system.file("extdata/huon", package="rcldf"))
 ## ----eval=FALSE---------------------------------------------------------------
 # glott <- load_glottolog()
 # conc <- load_concepticon()
+# clts <- load_clts()
+# dplace <- load_dplace()
+
+## -----------------------------------------------------------------------------
+datasets()
+
+## -----------------------------------------------------------------------------
+semitic <- load_dataset('kitchensemitic')
 
 ## -----------------------------------------------------------------------------
 get_cache_dir()
@@ -101,8 +116,14 @@ cldf(list_cache_files()[1, 'Path'])
 grambank <- cldf("https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 grambank
 
+# or: 
+# grambank <- load_dataset('grambank')
+
 ## -----------------------------------------------------------------------------
 summary(grambank)
+
+## -----------------------------------------------------------------------------
+plot_languages(grambank, color_by='Macroarea')
 
 ## -----------------------------------------------------------------------------
 languages <- grambank$tables$LanguageTable |>
@@ -112,6 +133,9 @@ languages
 
 ## -----------------------------------------------------------------------------
 grambank$tables$ParameterTable |> filter(ID=='GB028')
+
+## -----------------------------------------------------------------------------
+plot_parameter(grambank, parameter='GB028')
 
 ## -----------------------------------------------------------------------------
 values <- grambank$tables$ValueTable |> 

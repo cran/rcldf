@@ -17,6 +17,7 @@
 # fake API response to point to a local cldf
 fake_json <- function(url) {
     j <- list(
+        id = 1,
         files = data.frame(
             id        = "fa624858-984e-4de8-afbf-9370f19b22c2",
             key       = "glottolog/glottolog-cldf-v5.1.zip",
@@ -25,7 +26,7 @@ fake_json <- function(url) {
             stringsAsFactors = FALSE
         )
     )
-    j$files$links$self = system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
+    j$files$links$self <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
     j
 }
 
